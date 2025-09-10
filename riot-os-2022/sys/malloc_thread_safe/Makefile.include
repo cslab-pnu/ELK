@@ -1,0 +1,6 @@
+# use the wrapper functions for malloc and friends to provide thread-safety
+LINKFLAGS += -Wl,-wrap=malloc -Wl,-wrap=calloc -Wl,-wrap=realloc -Wl,-wrap=free
+# LINKFLAGS += -Wl,-wrap=memset
+# -Wl,-wrap=_malloc_r -Wl,-wrap=_free_r -Wl,-wrap=_calloc_r -Wl,-wrap=_realloc_r -Wl,-wrap=memchr
+
+USEMODULE += periph_hwrng

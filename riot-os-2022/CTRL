@@ -1,0 +1,2 @@
+boards/common/silabs/drivers/aem/aem.c:    DWT->CTRL = AEM_DWT_CTRL;
+pkg/nrfx/include/nrfx_glue.h: *        nrfx_coredep_delay_us uses a precise DWT-based solution.

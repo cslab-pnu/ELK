@@ -1,0 +1,8 @@
+break memory_instantiate
+break runtime_malloc
+break *0x80046f6
+break *0x8004708
+break __aeabi_memclr8
+break __aeabi_memset8
+break *__aeabi_memset+82
+

@@ -1,0 +1,1 @@
+$(pwd)/riot-os-2022/dist/tools/pyterm/pyterm -p "/dev/ttyACM0" -b "115200"

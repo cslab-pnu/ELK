@@ -1,0 +1,23 @@
+# avr libc needs some RIOT-specific support code
+USEMODULE += avr_libc_extra
+
+# tell the build system to build the avr8 common files
+USEMODULE += avr8_common
+
+# The AVR-libc provides no thread safe malloc implementation and has no hooks
+# to inject. Use malloc_thread_safe to link calls to malloc to safe wrappers
+# instead.
+USEMODULE += malloc_thread_safe
+
+# The AVR-libc provides no strerror, so we provide it via tiny_strerror
+USEMODULE += tiny_strerror_as_strerror
+
+# static C++ constructors need guards for thread safe initialization
+ifneq (,$(filter cpp,$(FEATURES_USED)))
+  USEMODULE += cxx_ctor_guards
+endif
+
+# new and delete operators needed
+ifneq (,$(filter cpp,$(FEATURES_USED)))
+  USEMODULE += cpp_new_delete
+endif

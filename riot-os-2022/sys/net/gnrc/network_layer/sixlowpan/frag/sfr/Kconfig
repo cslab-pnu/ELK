@@ -1,0 +1,180 @@
+# Copyright (c) 2020 Freie Universität Berlin
+#
+# This file is subject to the terms and conditions of the GNU Lesser
+# General Public License v2.1. See the file LICENSE in the top level
+# directory for more details.
+#
+menuconfig KCONFIG_USEMODULE_GNRC_SIXLOWPAN_FRAG_SFR
+    bool "Configure GNRC 6LoWPAN Selective Fragment Recovery"
+    depends on USEMODULE_GNRC_SIXLOWPAN_FRAG_SFR
+    help
+        Configure GNRC 6LoWPAN Selective Fragement Recovery using Kconfig.
+
+if KCONFIG_USEMODULE_GNRC_SIXLOWPAN_FRAG_SFR
+
+config GNRC_SIXLOWPAN_SFR_MIN_FRAG_SIZE
+    int "Default minimum value for fragment size (MinFragmentSize)"
+    default 96
+
+config GNRC_SIXLOWPAN_SFR_MAX_FRAG_SIZE
+    int "Default maximum value for fragment size (MaxFragmentSize)"
+    default 112
+    help
+        It must be lower than the minimum MTU along the path. A large value
+        augments the chances of buffer bloat and transmission loss. The value
+        must be less than 512 if the unit is defined for the PHY layer is the
+        octet.
+
+config GNRC_SIXLOWPAN_SFR_OPT_FRAG_SIZE
+    int "Default value for fragment size that the sender should use to start with (OptFragmentSize)"
+    default 112
+    help
+        Must be inclusively between @ref GNRC_SIXLOWPAN_SFR_MIN_FRAG_SIZE and
+        @ref GNRC_SIXLOWPAN_SFR_MAX_FRAG_SIZE
+
+config GNRC_SIXLOWPAN_SFR_USE_ECN
+    bool "Indicates whether the sender should react to Explicit Content Notification (UseECN)"
+    default true if KCONFIG_USEMODULE_GNRC_SIXLOWPAN_FRAG_SFR_CONGURE
+    default false
+    help
+        When the sender reacts to Explicit Congestion Notification (ECN) its
+        window size will vary between @ref
+        CONFIG_GNRC_SIXLOWPAN_SFR_MIN_WIN_SIZE and @ref
+        CONFIG_GNRC_SIXLOWPAN_SFR_MAX_WIN_SIZE.
+
+if GNRC_SIXLOWPAN_SFR_USE_ECN && !KCONFIG_USEMODULE_GNRC_SIXLOWPAN_FRAG_SFR_CONGURE
+comment "Warning: Reaction to ECN requires module `gnrc_sixlowpan_frag_sfr_congure`"
+endif
+
+config GNRC_SIXLOWPAN_SFR_MIN_WIN_SIZE
+    int "Default minimum value of window size that the sender can use (MinWindowSize)"
+    default 1
+    range 1 32
+
+config GNRC_SIXLOWPAN_SFR_MAX_WIN_SIZE
+    int "Default maximum value of window size that the sender can use (MaxWindowSize)"
+    default 16
+    range 1 32
+
+config GNRC_SIXLOWPAN_SFR_OPT_WIN_SIZE
+    int "Default value of window size that the sender should start with (OptWindowSize)"
+    default 16
+    range 1 32
+    help
+        Must be inclusively between @ref GNRC_SIXLOWPAN_SFR_MIN_WIN_SIZE and
+        @ref GNRC_SIXLOWPAN_SFR_MAX_WIN_SIZE
+
+config GNRC_SIXLOWPAN_SFR_INTER_FRAME_GAP_US
+    int "Default minimum amount of time between transmissions in microseconds (InterFrameGap)"
+    default 100
+    help
+        All packets to a same destination, and in particular fragments, may be
+        subject to receive while transmitting and hidden terminal collisions
+        with the next or the previous transmission as the fragments progress
+        along a same path. The InterFrameGap protects the propagation of to one
+        transmission before the next one is triggered and creates a duty cycle
+        that controls the ratio of air and memory in intermediate nodes that a
+        particular datagram will use.
+
+config GNRC_SIXLOWPAN_SFR_MIN_ARQ_TIMEOUT_MS
+    int "Minimum RFRAG-ACK timeout in msec before a node takes a next action (MinARQTimeOut)"
+    default 350
+
+config GNRC_SIXLOWPAN_SFR_MAX_ARQ_TIMEOUT_MS
+    int "Maximum RFRAG-ACK timeout in msec before a node takes a next action (MaxARQTimeOut)"
+    default 700
+
+config GNRC_SIXLOWPAN_SFR_OPT_ARQ_TIMEOUT_MS
+    int "Default RFRAG-ACK timeout in msec before a node takes a next action (OptARQTimeOut)"
+    default 700
+    help
+        Must be inclusively between @ref GNRC_SIXLOWPAN_SFR_MIN_ARQ_TIMEOUT_MS
+        and @ref GNRC_SIXLOWPAN_SFR_MAX_ARQ_TIMEOUT_MS
+
+config GNRC_SIXLOWPAN_SFR_FRAG_RETRIES
+    int "The maximum number of retries for a particular fragment (MaxFragRetries)"
+    default 2
+
+config GNRC_SIXLOWPAN_SFR_DG_RETRIES
+    int "The maximum number of retries from scratch for a particular datagram (MaxDatagramRetries)"
+    default 0
+
+menuconfig KCONFIG_USEMODULE_GNRC_SIXLOWPAN_FRAG_SFR_ECN_IF_IN
+    bool "Configure SFR ECN based on the message queue of the incoming netif"
+    depends on USEMODULE_GNRC_SIXLOWPAN_FRAG_SFR_ECN_IF_IN
+
+if KCONFIG_USEMODULE_GNRC_SIXLOWPAN_FRAG_SFR_ECN_IF_IN
+config GNRC_SIXLOWPAN_SFR_ECN_IF_IN_NUM
+    int "The numerator for the factor for when to mark ECN on incoming netif queue state"
+    default 1
+    help
+        When `gnrc_sixlowpan_frag_sfr_ecn_if_in` is compiled in, nodes will set
+        the ECN bit of an RFRAG header when the message queue of the incoming `netif`
+        is filled by
+        @ref CONFIG_GNRC_SIXLOWPAN_SFR_ECN_IF_IN_NUM / @ref CONFIG_GNRC_SIXLOWPAN_SFR_ECN_IF_IN_DEN
+
+config GNRC_SIXLOWPAN_SFR_ECN_IF_IN_DEN
+    int "The denominator for the factor for when to mark ECN on incoming netif queue state"
+    default 2
+    help
+        When `gnrc_sixlowpan_frag_sfr_ecn_if_in` is compiled in, nodes will set the
+        ECN bit of an RFRAG header when the message queue of the incoming `netif` is
+        filled by
+        @ref CONFIG_GNRC_SIXLOWPAN_SFR_ECN_IF_IN_NUM / @ref CONFIG_GNRC_SIXLOWPAN_SFR_ECN_IF_IN_DEN
+endif
+
+menuconfig KCONFIG_USEMODULE_GNRC_SIXLOWPAN_FRAG_SFR_ECN_IF_OUT
+    bool "Configure SFR ECN based on the output queue of the outgoing netif"
+    depends on USEMODULE_GNRC_SIXLOWPAN_FRAG_SFR_ECN_IF_OUT
+
+if KCONFIG_USEMODULE_GNRC_SIXLOWPAN_FRAG_SFR_ECN_IF_OUT
+config GNRC_SIXLOWPAN_SFR_ECN_IF_OUT_NUM
+    int "The numerator for the factor for when to mark ECN on the outgoing netif's output queue state"
+    default 1
+    help
+        When `gnrc_sixlowpan_frag_sfr_ecn_if_out` is compiled in, nodes will set
+        the ECN bit of an RFRAG header when the output queue of the outgoing `netif`
+        is filled by
+        @ref CONFIG_GNRC_SIXLOWPAN_SFR_ECN_IF_OUT_NUM / @ref CONFIG_GNRC_SIXLOWPAN_SFR_ECN_IF_OUT_DEN
+
+config GNRC_SIXLOWPAN_SFR_ECN_IF_OUT_DEN
+    int "The denominator for the factor for when to mark ECN on the outgoing netif output queue state"
+    default 2
+    help
+        When `gnrc_sixlowpan_frag_sfr_ecn_if_out` is compiled in, nodes will set the
+        ECN bit of an RFRAG header when the output queue of the outgoing `netif` is
+        filled by
+        @ref CONFIG_GNRC_SIXLOWPAN_SFR_ECN_IF_OUT_NUM / @ref CONFIG_GNRC_SIXLOWPAN_SFR_ECN_IF_OUT_DEN
+endif
+
+menuconfig KCONFIG_USEMODULE_GNRC_SIXLOWPAN_FRAG_SFR_ECN_FQUEUE
+    bool "Configure SFR ECN based on SFR's frame queue"
+    depends on USEMODULE_GNRC_SIXLOWPAN_FRAG_SFR_ECN_FQUEUE
+
+if KCONFIG_USEMODULE_GNRC_SIXLOWPAN_FRAG_SFR_ECN_FQUEUE
+config GNRC_SIXLOWPAN_SFR_ECN_FQUEUE_NUM
+    int "The numerator for the factor for when to mark ECN on frame queue state"
+    default 1
+    help
+        When `gnrc_sixlowpan_frag_sfr_ecn_fqueue` is compiled in, nodes will set the
+        ECN bit of an RFRAG header when the frame queue for SFR is filled by
+        @ref CONFIG_GNRC_SIXLOWPAN_SFR_ECN_FQUEUE_NUM / @ref CONFIG_GNRC_SIXLOWPAN_SFR_ECN_FQUEUE_DEN
+
+config GNRC_SIXLOWPAN_SFR_ECN_FQUEUE_DEN
+    int "The denominator for the factor for when to mark ECN on frame queue state"
+    default 2
+    help
+        When `gnrc_sixlowpan_frag_sfr_ecn_fqueue` is compiled in, nodes will set the
+        ECN bit of an RFRAG header when the frame queue for SFR is filled by
+        @ref CONFIG_GNRC_SIXLOWPAN_SFR_ECN_FQUEUE_NUM / @ref CONFIG_GNRC_SIXLOWPAN_SFR_ECN_FQUEUE_DEN
+endif
+
+config GNRC_SIXLOWPAN_SFR_MOCK_ARQ_TIMER
+    bool "Deactivate automatic handling of ARQ timer"
+    default n
+    help
+        This requires an external source (e.g. a test application) to call
+        @ref gnrc_sixlowpan_frag_sfr_arq_timeout() for
+        @ref net_gnrc_sixlowpan_frag_sfr to still work properly.
+
+endif

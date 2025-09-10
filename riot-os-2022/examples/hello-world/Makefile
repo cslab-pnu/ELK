@@ -1,0 +1,24 @@
+# name of your application
+APPLICATION = hello-world
+
+# If no BOARD is found in the environment, use this default:
+BOARD ?= nucleo-l552ze-q
+
+# This has to be the absolute path to the RIOT base directory:
+RIOTBASE ?= $(CURDIR)/../..
+
+# Comment this out to disable code in RIOT that does safety checking
+# which is not needed in a production environment but helps in the
+# development process:
+DEVELHELP ?= 1
+
+# Change this to 0 show compiler invocation lines by default:
+QUIET ?= 0
+
+TOOLCHAIN = llvm
+WERROR = 0 
+USEMODULE += mpu_prog log log_color
+CFLAGS += -v -O0 -DLOG_LEVEL=LOG_ALL -include $(RIOTBASE)/sys/include/malloc_thread_safe.h
+#CFLAGS += -Xclang -emit-llvm -S -o $(CURDIR)/IR/$(notdir $@).ll
+
+include $(RIOTBASE)/Makefile.include

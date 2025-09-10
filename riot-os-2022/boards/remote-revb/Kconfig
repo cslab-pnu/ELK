@@ -1,0 +1,26 @@
+# Copyright (c) 2020 HAW Hamburg
+#
+# This file is subject to the terms and conditions of the GNU Lesser
+# General Public License v2.1. See the file LICENSE in the top level
+# directory for more details.
+
+config BOARD
+    default "remote-revb" if BOARD_REMOTE_REVB
+
+config BOARD_REMOTE_REVB
+    bool
+    default y
+    select BOARD_COMMON_REMOTE
+    select HAS_ARDUINO
+    select HAVE_SAUL_ADC
+    select HAVE_SAUL_GPIO
+    select HAS_SDCARD_SPI
+
+    select HAVE_MTD_SDCARD
+    select HAVE_SDCARD_SPI
+
+    select MODULE_FATFS_VFS if MODULE_VFS_DEFAULT
+    select MODULE_MTD if MODULE_VFS_DEFAULT
+    select MODULE_SDCARD_SPI if MODULE_MTD
+
+source "$(RIOTBOARD)/common/remote/Kconfig"
