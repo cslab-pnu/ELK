@@ -35,7 +35,7 @@ $ pip3 install pyserial
 ## How to install
 
 ```
-$ git clone https://github.com/kbhetrr/ELK
+$ git clone https://github.com/cslab-pnu/ELK
 $ cd ELK
 ```
 
