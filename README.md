@@ -99,7 +99,7 @@ $ make flash
 2025-09-08 11:06:52,067 # freed once: 0x20004000
 2025-09-08 11:06:52,069 # [ELK] Double Free Detected!
 </pre>
-  <img align="right" src="./claims/double-free/expected_readme.png" width="30%"/>
+  <img src="./claims/double-free/expected_readme.png" width="30%"/>
 </div>
 
 **Claim 3. invalid-free**
