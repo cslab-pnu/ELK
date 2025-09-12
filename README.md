@@ -1,7 +1,5 @@
 # ELK: Effective Lock-and-Key Technique for Temporal Memory Safety on Embedded Devices in ARMv8-M
 
-Jeonghwan Kang, Kyounghwan Kim, and Donghyun Kwon (School of Computer Science and Engineering, Pusan National University)
-
 This is the repository of our paper presented at the ACSAC 2025.
 
 **Paper**: (to appear)
@@ -12,20 +10,20 @@ The artifacts submitted for our paper include a prototype of ELK, as described i
 
 ## Contents
 
-| File | Description |
-|------|-------------|
-| `examples` | Example C programs to test the basic functionality of ELK |
-| `llvm-project-15` | Modified LLVM 15.0 for compiler instrumentation |
-| `riot-os-2022` | Modified RIOT-OS 2022.10 for ELK runtime library |
-| `env.sh` | Script to configure the running environment |
-| `install-llvm.sh` | Script to automatically install modified LLVM for ELK |
-| `pyterm.sh` | Script to connect the development board using pyterm |
+| File              | Description                                               |
+| ----------------- | --------------------------------------------------------- |
+| `examples`        | Example C programs to test the basic functionality of ELK |
+| `llvm-project-15` | Modified LLVM 15.0 for compiler instrumentation           |
+| `riot-os-2022`    | Modified RIOT-OS 2022.10 for ELK runtime library          |
+| `env.sh`          | Script to configure the running environment               |
+| `install-llvm.sh` | Script to automatically install modified LLVM for ELK     |
+| `pyterm.sh`       | Script to connect the development board using pyterm      |
 
 ## Dependencies
 
-* Development boards NUCLEO-L552ZE-Q by STMicroelectronics (Available 8 MPU Regions, 256 KB SRAM)
-* Ubuntu 22.04 LTS
-* Embedded ARM cross-compiler toolchain
+- Development boards NUCLEO-L552ZE-Q by STMicroelectronics (Available 8 MPU Regions, 256 KB SRAM)
+- Ubuntu 22.04 LTS
+- Embedded ARM cross-compiler toolchain
 
 ```
 $ sudo apt install gcc-arm-none-eabi
@@ -61,7 +59,8 @@ In a new terminal, enter the following:
 $ ./pyterm.sh
 ```
 
-* Expected output:
+- Expected output:
+
 ```
 2025-09-08 10:59:22,561 # Connect to serial port /dev/ttyACM0
 Welcome to pyterm!
@@ -77,7 +76,8 @@ $ cd examples/use-after-free
 $ make flash
 ```
 
-* Expected output:
+- Expected output:
+
 ```
 2025-09-08 11:10:35,736 # obj allocated at: 0x20006000
 2025-09-08 11:10:35,739 # obj 0x20006000 has been deallocated
@@ -92,7 +92,8 @@ $ cd examples/double-free
 $ make flash
 ```
 
-* Expected output:
+- Expected output:
+
 ```
 2025-09-08 11:06:52,065 # allocated: 0x20004000
 2025-09-08 11:06:52,067 # freed once: 0x20004000
@@ -106,7 +107,8 @@ $ cd examples/invalid-free
 $ make flash
 ```
 
-* Expected output:
+- Expected output:
+
 ```
 2025-09-08 11:04:33,627 # base: 0x20004000, interior: 0x20004008
 2025-09-08 11:04:33,633 # [ELK] Invalid Free Detected! (Free of Pointer not at Start of Buffer)
