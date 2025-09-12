@@ -21,9 +21,12 @@ The artifacts submitted for our paper include a prototype of ELK, as described i
 
 ## Dependencies
 
-- Development boards NUCLEO-L552ZE-Q by STMicroelectronics (Available 8 MPU Regions, 256 KB SRAM)
-- Ubuntu 22.04 LTS
-- Embedded ARM cross-compiler toolchain
+> [!IMPORTANT]
+> Development boards NUCLEO-L552ZE-Q by STMicroelectronics (Available 8 MPU Regions, 256 KB SRAM)
+
+> Ubuntu 22.04 LTS
+
+> Embedded ARM cross-compiler toolchain
 
 ```bash
 $ sudo apt install gcc-arm-none-eabi
@@ -61,11 +64,11 @@ $ ./pyterm.sh
 
 - Expected output:
 
-> ```
-> 2025-09-08 10:59:22,561 # Connect to serial port /dev/ttyACM0
-> Welcome to pyterm!
-> Type '/exit' to exit.
-> ```
+```
+2025-09-08 10:59:22,561 # Connect to serial port /dev/ttyACM0
+Welcome to pyterm!
+Type '/exit' to exit.
+```
 
 Compile the example programs in the `claims` directory.
 
@@ -76,14 +79,14 @@ $ cd claims/use-after-free
 $ make flash
 ```
 
-- Expected output:
+- Expected output: [View image](./claims/use-after-free/expected.png)
 
-> ```
-> 2025-09-08 11:10:35,736 # obj allocated at: 0x20006000
-> 2025-09-08 11:10:35,739 # obj 0x20006000 has been deallocated
-> 2025-09-08 11:10:35,740 # use after free...
-> 2025-09-08 11:10:35,742 # [ELK] Use After Free Detected!
-> ```
+```
+2025-09-08 11:10:35,736 # obj allocated at: 0x20006000
+2025-09-08 11:10:35,739 # obj 0x20006000 has been deallocated
+2025-09-08 11:10:35,740 # use after free...
+2025-09-08 11:10:35,742 # [ELK] Use After Free Detected!
+```
 
 **Claim 2. double-free**
 
@@ -92,13 +95,13 @@ $ cd claims/double-free
 $ make flash
 ```
 
-- Expected output:
+- Expected output: [View image](./claims/double-free/expected.png)
 
-> ```
-> 2025-09-08 11:06:52,065 # allocated: 0x20004000
-> 2025-09-08 11:06:52,067 # freed once: 0x20004000
-> 2025-09-08 11:06:52,069 # [ELK] Double Free Detected!
-> ```
+```
+2025-09-08 11:06:52,065 # allocated: 0x20004000
+2025-09-08 11:06:52,067 # freed once: 0x20004000
+2025-09-08 11:06:52,069 # [ELK] Double Free Detected!
+```
 
 **Claim 3. invalid-free**
 
@@ -107,12 +110,12 @@ $ cd claims/invalid-free
 $ make flash
 ```
 
-- Expected output:
+- Expected output: [View image](./claims/invalid-free/expected.png)
 
-> ```
-> 2025-09-08 11:04:33,627 # base: 0x20004000, interior: 0x20004008
-> 2025-09-08 11:04:33,633 # [ELK] Invalid Free Detected! (Free of Pointer not at Start of Buffer)
-> ```
+```
+2025-09-08 11:04:33,627 # base: 0x20004000, interior: 0x20004008
+2025-09-08 11:04:33,633 # [ELK] Invalid Free Detected! (Free of Pointer not at Start of Buffer)
+```
 
 ---
 
@@ -126,13 +129,13 @@ $ cat test.ll
 
 Afterward, you can confirm that the instrumentation code has been inserted as shown below:
 
-> ```llvm
-> ...
->   %arrayidx = getelementptr inbounds i8, i8* %3, i64 0
->   %4 = call i8* @check_and_translation(i8* %arrayidx)
->   %5 = load i8, i8* %4, align 1
-> ...
-> ```
+```llvm
+...
+  %arrayidx = getelementptr inbounds i8, i8* %3, i64 0
+  %4 = call i8* @check_and_translation(i8* %arrayidx)
+  %5 = load i8, i8* %4, align 1
+...
+```
 
 ## Citation
 
