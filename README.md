@@ -24,9 +24,12 @@ The artifacts submitted for our paper include a prototype of ELK, as described i
 > [!IMPORTANT]
 > Public research infrastructure is not applicable due to the hardware requirement.
 
+ELK requires the following software and hardware components:
+
 - Development boards **NUCLEO-L552ZE-Q** by STMicroelectronics (Available 8 MPU Regions, 256 KB SRAM)
-- Ubuntu 22.04 LTS
+- A workstation running Ubuntu 22.04 LTS
 - Embedded ARM cross-compiler toolchain
+- Python 3.7+ (pySerial)
 
 ```bash
 $ sudo apt install gcc-arm-none-eabi
@@ -53,6 +56,9 @@ $ source env.sh
 ```
 
 ## Test if ELK is working
+
+> [!NOTE]
+> Connect the development board to the workstation. Check the corresponding development board manual for more details ([Link](https://www.st.com/resource/en/user_manual/um2581-stm32l5-nucleo144-board-mb1361-stmicroelectronics.pdf)).
 
 To check the test results of ELK, the development board must be connected to the terminal as shown below.
 
