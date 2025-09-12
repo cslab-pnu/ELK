@@ -6,7 +6,7 @@ This is the repository of our paper presented at the ACSAC 2025.
 
 ## Abstract
 
-The artifacts submitted for our paper include a prototype of ELK, as described in the design (Section 6) and implementation (Section 7). ELK is comprised of two major components. A runtime library (RIOT-OS) and an LLVM pass to instrument the C source codes. The current implementation is based on the MPU and TT features (Armv8-M). To support these features, a development board based on the Armv8-M architecture is required. ELK has been tested on the NUCLEO-L552ZE-Q development board by STMicroelectronics. The current implementation uses a cross-compilation approach. The input to the ELK instrumentation pass is an LLVM bitcode file, and the output is an instrumented ELF binary.
+The artifacts submitted for our paper include a prototype of ELK, as described in the design (Section 4) and implementation (Section 6). ELK is comprised of two major components. A runtime library (RIOT-OS) and an LLVM pass to instrument the C source codes. The current implementation is based on the MPU and TT features (Armv8-M). To support these features, a development board based on the Armv8-M architecture is required. ELK has been tested on the NUCLEO-L552ZE-Q development board by STMicroelectronics. The current implementation uses a cross-compilation approach. The input to the ELK instrumentation pass is an LLVM bitcode file, and the output is an instrumented ELF binary.
 
 ## Contents
 
