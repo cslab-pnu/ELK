@@ -25,27 +25,27 @@ The artifacts submitted for our paper include a prototype of ELK, as described i
 - Ubuntu 22.04 LTS
 - Embedded ARM cross-compiler toolchain
 
-```
+```bash
 $ sudo apt install gcc-arm-none-eabi
 $ pip3 install pyserial
 ```
 
 ## How to install
 
-```
+```bash
 $ git clone https://github.com/cslab-pnu/ELK
 $ cd ELK
 ```
 
 Let's install LLVM. Building LLVM can take some time.
 
-```
+```bash
 $ ./install-llvm.sh
 ```
 
 Then, load the environment in your current shell:
 
-```
+```bash
 $ source env.sh
 ```
 
@@ -55,7 +55,7 @@ To check the test results of ELK, the development board must be connected to the
 
 In a new terminal, enter the following:
 
-```
+```bash
 $ ./pyterm.sh
 ```
 
@@ -67,74 +67,72 @@ $ ./pyterm.sh
 > Type '/exit' to exit.
 > ```
 
-Compile the example programs in the `examples` directory.
+Compile the example programs in the `claims` directory.
 
 **Claim 1. use-after-free**
 
-```
-$ cd examples/use-after-free
+```bash
+$ cd claims/use-after-free
 $ make flash
 ```
 
 - Expected output:
 
-```
-2025-09-08 11:10:35,736 # obj allocated at: 0x20006000
-2025-09-08 11:10:35,739 # obj 0x20006000 has been deallocated
-2025-09-08 11:10:35,740 # use after free...
-2025-09-08 11:10:35,742 # [ELK] Use After Free Detected!
-```
+> ```
+> 2025-09-08 11:10:35,736 # obj allocated at: 0x20006000
+> 2025-09-08 11:10:35,739 # obj 0x20006000 has been deallocated
+> 2025-09-08 11:10:35,740 # use after free...
+> 2025-09-08 11:10:35,742 # [ELK] Use After Free Detected!
+> ```
 
 **Claim 2. double-free**
 
-```
-$ cd examples/double-free
+```bash
+$ cd claims/double-free
 $ make flash
 ```
 
 - Expected output:
 
-<div style="display: flex; justify-content: center; align-items: center; gap: 20px;">
-  <pre style="flex:1; font-size:12px">2025-09-08 11:06:52,065 # allocated: 0x20004000
-2025-09-08 11:06:52,067 # freed once: 0x20004000
-2025-09-08 11:06:52,069 # [ELK] Double Free Detected!
-</pre>
-  <img src="./claims/double-free/expected_readme.png" width="30%"/>
-</div>
+> ```
+> 2025-09-08 11:06:52,065 # allocated: 0x20004000
+> 2025-09-08 11:06:52,067 # freed once: 0x20004000
+> 2025-09-08 11:06:52,069 # [ELK] Double Free Detected!
+> ```
 
 **Claim 3. invalid-free**
 
-```
-$ cd examples/invalid-free
+```bash
+$ cd claims/invalid-free
 $ make flash
 ```
 
 - Expected output:
 
-```
-2025-09-08 11:04:33,627 # base: 0x20004000, interior: 0x20004008
-2025-09-08 11:04:33,633 # [ELK] Invalid Free Detected! (Free of Pointer not at Start of Buffer)
-```
+> ```
+> 2025-09-08 11:04:33,627 # base: 0x20004000, interior: 0x20004008
+> 2025-09-08 11:04:33,633 # [ELK] Invalid Free Detected! (Free of Pointer not at Start of Buffer)
+> ```
 
 ---
 
 To check whether ELK's instrumentation pass works correctly when compiling a C program, enter the following command:
 
-```
-$ cd examples/use-after-free
+```bash
+$ cd claims/use-after-free
 $ clang -emit-llvm -S use_after_free.c -o test.ll
 $ cat test.ll
 ```
 
 Afterward, you can confirm that the instrumentation code has been inserted as shown below:
 
-```
-...
-  %arrayidx = getelementptr inbounds i8, i8* %3, i64 0
-  %4 = call i8* @check_and_translation(i8* %arrayidx)
-  %5 = load i8, i8* %4, align 1
-...
-```
+> ```llvm
+> ...
+>   %arrayidx = getelementptr inbounds i8, i8* %3, i64 0
+>   %4 = call i8* @check_and_translation(i8* %arrayidx)
+>   %5 = load i8, i8* %4, align 1
+> ...
+> ```
 
 ## Citation
 
