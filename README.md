@@ -22,11 +22,11 @@ The artifacts submitted for our paper include a prototype of ELK, as described i
 ## Dependencies
 
 > [!IMPORTANT]
-> Development boards NUCLEO-L552ZE-Q by STMicroelectronics (Available 8 MPU Regions, 256 KB SRAM)
+> Public research infrastructure is not applicable due to the hardware requirement.
 
-> Ubuntu 22.04 LTS
-
-> Embedded ARM cross-compiler toolchain
+- Development boards **NUCLEO-L552ZE-Q** by STMicroelectronics (Available 8 MPU Regions, 256 KB SRAM)
+- Ubuntu 22.04 LTS
+- Embedded ARM cross-compiler toolchain
 
 ```bash
 $ sudo apt install gcc-arm-none-eabi
