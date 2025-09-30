@@ -32,7 +32,7 @@ ELK requires the following software and hardware components:
 - Python 3.7+ (pySerial)
 
 ```bash
-$ sudo apt install gcc-arm-none-eabi
+$ sudo apt install cmake ninja-build build-essential gcc-arm-none-eabi
 $ pip3 install pyserial
 ```
 
