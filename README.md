@@ -2,7 +2,7 @@
 
 This is the repository of our paper presented at the ACSAC 2025.
 
-**Paper**: (to appear)
+**Paper**: [ELK: Effective Lock-and-Key Technique for Temporal Memory Safety on Embedded Devices in ARMv8-M](https://doi.org10.1109/ACSAC67867.2025.00030)
 
 ## Abstract
 
@@ -149,6 +149,11 @@ If you use this work or parts of it, please cite our paper as follows:
 
 ```
 @inproceedings {
-
+  title={ELK: Effective Lock-and-Key Technique for Temporal Memory Safety on Embedded Devices in ARMv8-M},
+  author={Kang, Jeonghwan and Kim, Kyounghwan and Kwon, Donghyun},
+  booktitle={2025 IEEE Annual Computer Security Applications Conference (ACSAC)},
+  pages={198--211},
+  year={2025},
+  organization={IEEE}
 }
 ```
